@@ -1,0 +1,40 @@
+// Code your testbench here
+// or browse Examples
+module test;
+  reg d1,d2,d3,d4,d5,d6,d7,d8;
+  wire [2:0]y;
+  
+  enco AA(d1,d2,d3,d4,d5,d6,d7,d8,y);
+  initial
+    begin
+      
+      d1=1'b0; d2=1'b0; d3=1'b0; d4=1'b0; d5=1'b0;
+      d6=1'b0; d7=1'b0; d8=1'b0;
+      #1 $display("%b",y);
+      
+      d1=1'b0; d2=1'b1; d3=1'b0; d4=1'b0; d5=1'b0;
+      d6=1'b0; d7=1'b0; d8=1'b0;
+      #5 $display("%b",y);
+      
+      
+      d1=1'b1; d2=1'b0; d3=1'b0; d4=1'b0; d5=1'b0;
+      d6=1'b0; d7=1'b0; d8=1'b0;
+      #15 $display("%b",y);
+      
+      
+    end
+endmodule
+
+
+// Code your design here
+module enco(d1,d2,d3,d4,d5,d6,d7,d8,y);
+  input d1,d2,d3,d4,d5,d6,d7,d8;
+  output [2:0]y;
+  reg [2:0]f;// for input 00000000
+
+  assign y= d8?(3'b111):(d7?(3'b110):(d6?(3'b101):(d5?(3'b100):(d4?(3'b011):(d3?(3'b010):(d2?(3'b001):d1?(3'b000):(f)))))));
+endmodule
+    
+
+
+
