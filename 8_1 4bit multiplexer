@@ -1,0 +1,76 @@
+// Code your testbench here
+// or browse Examples
+module test ;
+  reg a,b,c,c1,c2,c3,c4,c5,c6,c7,c8;
+  wire y;
+  mux_abba  f(c1,c2,c3,c4,c5,c6,c7,c8,a,b,c,y);
+   initial begin
+    
+      a=1'b0; b=1'b0; c=1'b1; c1=1'b1; c2=1'b0; c3=1'b1; c4=1'b1; c5=1'b1; c6=1'b1; c7=1'b1; c8=1'b1;
+     #1 $display(y);
+       a=1'b0; b=1'b0; c=1'b1; c1=1'b1; c2=1'b0; c3=1'b1; c4=1'b1; c5=1'b1; c6=1'b1; c7=1'b1; c8=1'b1;
+     #5 $display(y);
+       a=1'b1; b=1'b0; c=1'b1; c1=1'b1; c2=1'b0; c3=1'b1; c4=1'b1; c5=1'b1; c6=1'b1; c7=1'b1; c8=1'b1;
+     #10 $display("%b",y);
+    end
+endmodule
+
+// Code your design here
+module mux_abba(c1,c2,c3,c4,c5,c6,c7,c8,a,b,c,y);
+  input a,b,c,c1,c2,c3,c4,c5,c6,c7,c8;
+  output y;
+  reg r1,r2,r3;
+  wire w2,w1,w3,w5,w6,w7,w8,w4,a1,a2,a3,a4,a5,a6,a7,a8,s1,s2,s3,s4,s5,s6,s7,s8,o1,o2,o3,o4,o5,o6,o7;
+  
+  not H1(r1,a);
+  not H2(r2,b);
+  not  H3(r3,c);
+    
+  and H4(w1,r1,r2);
+  and H5(s1,w1,r3);
+  and  H6(a1,c1,s1);
+   
+  and H7(w2,r1,r2);
+  and H8(s2,w2,c);
+  and  H9(a2,c2,s2);
+  
+  and H10(w3,r1,b);
+  and  F1(s3,w4,r3);
+  and  F22(a3,c3,s3);
+  
+  and F2(w4,r1,b);
+  and  F3(s4,w4,c);
+  and F4(a4,c4,s4);
+  
+  and F5(w5,a,r2);
+  and  F6(s5,w5,r3);
+  and F7(a5,c5,s5);
+  
+  and F8(w6,a,r2);
+  and F9(s6,w6,c);
+  and F10(a6,c6,s6);
+  
+  and Q1(w7,a,b);
+  and Q2(s7,w7,r3);
+  and Q3(a7,c7,s7);  
+  
+  and Q4(w8,a,b);
+  and Q5(s8,w8,c);
+  and  Q5(a8,c8,s8);
+  
+  
+  // assign y= a1+a2+a3+a4+a5+a6+a7+a8;
+  
+  or g1(o1,a1,a2);
+  or g2(o2,a3,a4);
+  or g3(o3,a5,a6);
+  or g4(o4,a7,a8);
+  
+  or g5(o5,o1,o2);
+  or g6(o6,o3,o4);
+  
+  or g7(o7,o5,o6);
+  
+  assign y= o7;
+  
+endmodule
