@@ -1,0 +1,77 @@
+// Code your testbench here
+// or browse Examples
+module test;
+  reg a,b,c,d;
+  wire [15:0]y;
+  caller f(a,b,c,d,y);
+   initial begin
+     a=1'b1; b=1'b0; c=1'b0; d=1'b0;
+     #1 $display("%b",y);
+         a=1'b1; b=1'b0; c=1'b0; d=1'b1;
+     #1 $display("%b",y);
+     end
+endmodule
+
+
+// Code your design here
+module deco_abba(a,b,c,y);
+  input a,b,c;
+  output [7:0]y;
+  assign y[0]=(!a)&&(!b)&&(!c);
+  assign y[1]=(!a)&&(!b)&&(c);
+  assign y[2]=(!a)&&(b)&&(!c);
+  assign y[3]=(!a)&&(b)&&(c);
+  assign y[4]=(a)&&(!b)&&(!c);
+  assign y[5]=(a)&&(!b)&&(c);
+  assign y[6]=(a)&&(b)&&(!c);
+  assign y[7]=(a)&&(b)&&(c);
+ 
+endmodule
+
+module guns_n_roses(a,b,c,y);
+  input a,b,c;
+  output [15:8]y;
+  
+  assign y[8]=(!a)&&(!b)&&(!c);
+  assign y[9]=(!a)&&(!b)&&(c);
+  assign y[10]=(!a)&&(b)&&(!c);
+  assign y[11]=(!a)&&(b)&&(c);
+  assign y[12]=(a)&&(!b)&&(!c);
+  assign y[13]=(a)&&(!b)&&(c);
+  assign y[14]=(a)&&(b)&&(!c);
+  assign y[15]=(a)&&(b)&&(c);
+  
+endmodule
+
+
+
+module caller(a,b,c,d,y);
+  input a,b,c,d;
+  output [15:0]y;
+  wire [15:0]temp,temp1,temp2;
+  
+  assign temp2[1]=1'b0;
+  assign temp2[2]=1'b0;
+  assign temp2[3]=1'b0;
+  assign temp2[4]=1'b0;
+  assign temp2[5]=1'b0;
+  assign temp2[6]=1'b0;
+  assign temp2[7]=1'b0;
+  assign temp2[0]=1'b0;
+  
+  
+  assign temp1[11]=1'b0;
+  assign temp1[12]=1'b0;
+  assign temp1[13]=1'b0;
+  assign temp1[14]=1'b0;
+  assign temp1[15]=1'b0;
+  assign temp1[8]=1'b0;
+  assign temp1[9]=1'b0;
+  assign temp1[10]=1'b0;
+  
+  guns_n_roses k(a,b,c,temp1[7:0]);
+  deco_abba  j(a,b,c,temp2[15:8]);
+  
+  
+  assign y = d?(temp2):temp1;  
+endmodule
