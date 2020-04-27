@@ -1,0 +1,59 @@
+// Code your design here
+module test;
+reg clk,x;
+wire y;
+threeM uu(x,clk,y);
+initial
+  begin
+    $dumpfile("three.vcd");
+      $dumpvars(0,test);
+    clk=1'b0;
+  end
+always #5 clk=~clk;
+initial
+  begin
+    #2 x=0;
+    #10 x=1;
+    #10 x=1;
+    #10 x=0;
+    #10 x=1;
+    #10 x=1;
+    #10 x=1;
+    #10 x=1;
+    #10 x=1;
+    #10 x=1;
+    #10 x=1;
+    #10 x=1;
+    #10 x=1;
+    #10 x=1;
+    $finish;
+  end
+endmodule
+
+// Code your testbench here
+// or browse Examples
+module threeM (x,clk,y);
+  input x,clk;
+  output reg y;
+  reg [0:2]state;
+  parameter S0=0,S1=1,S2=2;
+  always @(posedge clk)
+    case(state)
+      S0:begin
+        y <= x?0:1;
+        state<=x?S1:S0;
+      end
+        S1:begin
+        y <= 0;
+        state<=x?S2:S1;
+      end
+        S2:begin
+        y <= x?1:0;
+        state<=x?S0:S2;
+      end
+      default: state<= S0;
+    endcase
+endmodule
+
+
+

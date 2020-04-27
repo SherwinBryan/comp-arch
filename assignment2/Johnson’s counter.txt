@@ -1,0 +1,66 @@
+module test;
+  reg clk;
+  wire [3:0] y;
+  
+ Johnson uu(clk, y);
+  
+  initial
+    clk = 1'b0;
+  
+  initial
+    forever #5 clk = ~clk;
+  
+  initial
+    begin
+      $dumpfile("cyclic_lamp.vcd");
+      $dumpvars(0,test);
+      $monitor($time, " out = %b",y);
+      #200 $finish;
+    end
+endmodule
+
+// Code your testbench here
+// or browse Examples
+module Johnson (clk,y);
+  input clk;
+  output reg [3:0]y;
+  parameter y0 = 4'b0000, y1 = 4'b1000, y2 = 4'b1100  ,y3 = 4'b1110, y4 = 4'b1111, y5 = 4'b0111,y6 = 4'b0011,y7 = 4'b0001;
+  parameter S0 = 0, S1 = 1, S2 = 2,S3 = 3, S4 = 4, S5 = 5,S6 = 6, S7 = 7;
+  reg [7:0] state;
+  
+  always @ (posedge clk)
+    begin
+      case (state)
+        S0: begin			
+          y <= y0; state <= S1;
+        end
+        S1: begin			
+          y <= y1; state <= S2;
+        end
+        S2: begin			
+          y <= y2; state <= S3;
+        end
+         S3: begin			
+          y <= y3; state <= S4;
+        end
+        S4: begin			
+          y <= y4; state <= S5;
+        end
+        S5: begin			
+          y <= y5; state <= S6;
+        end
+         S6: begin			
+          y <= y6; state <= S7;
+        end
+        S7: begin			
+          y <= y7; state <= S0;
+        end
+        
+       default:begin
+          y <= y0; state <= S1;
+        end
+      endcase
+    end
+endmodule
+
+
